@@ -37,10 +37,13 @@ Demo site is deleteed today> It's because some user upload virus code which is s
 <a name="feature2"></a>
 ##Requirements
 
+Make sure all the required PHP extensions are loaded in your php.ini file.
+
 	PHP >= 5.5.9
 	OpenSSL PHP Extension
 	Mbstring PHP Extension
 	Tokenizer PHP Extension
+	Fileinfo PHP extension
 	SQL server(for example MySQL)
 	Composer
 	Node JS
@@ -48,47 +51,73 @@ Demo site is deleteed today> It's because some user upload virus code which is s
 -----
 <a name="feature3"></a>
 ##How to install:
-* [Step 1: Get the code](#step1)
-* [Step 2: Use Composer to install dependencies](#step2)
-* [Step 3: Create database](#step3)
-* [Step 4: Install](#step4)
+* [Step 1: Download the repository](#step1)
+* [Step 2: Use Composer to install PHP dependencies](#step2)
+* [Step 3: Create database, set up .env file, run migrations and seeds](#step3)
+* [Step 4: Install node.js, bower, gulp and compile assets](#step4)
 * [Step 5: Start Page](#step5)
 
 -----
 <a name="step1"></a>
-### Step 1: Get the code - Download the repository
+### Step 1: Download the repository
+
+Create new project folder and change directory into it.
+
+You also can create new vhost on your HTTP server (for example Apache's <vhost>) and add your local host to system `hosts` file, for example, to make your site accessible via http://mywebsite.local. Make sure DocumentRoot is set to project_folder/public.
+
+There are two ways to download Laravel-5-Bootstrap-3-Starter-Site: using git or downloading zip archive.
+
+Download the git repository
+
+    git clone https://github.com/mrakodol/Laravel-5-Bootstrap-3-Starter-Site.git .
+    
+If you have your own remote git repository, change origin url.
+
+    git remote set-url origin https://HOST.COM/OTHERREPOSITORY.git
+    
+If you don't have remote git repository, remove origin:
+
+    git remote rm origin
+
+OR without using git you can download zip archive and extract it into project folder.
 
     https://github.com/mrakodol/Laravel-5-Bootstrap-3-Starter-Site/archive/master.zip
 
-Extract it in www(or htdocs if you using XAMPP) folder and put it for example in laravel5startersite folder.
 
 -----
 <a name="step2"></a>
-### Step 2: Use Composer to install dependencies
+### Step 2: Use Composer to install PHP dependencies
 
 Laravel utilizes [Composer](http://getcomposer.org/) to manage its dependencies. First, download a copy of the composer.phar.
 Once you have the PHAR archive, you can either keep it in your local project directory or move to
 usr/local/bin to use it globally on your system.
 On Windows, you can use the Composer [Windows installer](https://getcomposer.org/Composer-Setup.exe).
 
-Then run:
+To install all the PHP dependencies run:
 
     composer install
-to install dependencies Laravel and other packages.
+
 
 -----
 <a name="step3"></a>
-### Step 3: Create database
+### Step 3: Create database, set up .env file, run migrations and seeds
 
-If you finished first three steps, now you can create database on your database server(MySQL). You must create database
-with utf-8 collation(uft8_general_ci), to install and application work perfectly.
-After that, copy .env.example and rename it as .env and put connection and change default database connection name, only database connection, put name database, database username and password.
+Create new database with utf-8 collation (`uft8_general_ci`) on your MySQL database server. You can create additional user and password.
+
+After that, copy `.env.example` and rename it as `.env` and put your MySQL server and database credentials, change default database host name, database name, username and password.
+
+Now that you have the environment configured, you need to run Laravel migrations to create all the tables:
+
+    php artisan migrate
+
+(Optional) To initial populate database use this:
+
+    php artisan db:seed
+
 
 -----
 <a name="step4"></a>
-### Step 4: Install
-
-Firstable need to uncomment this line "extension=php_fileinfo.dll" in php.ini file.
+### Step 4: Install node.js, bower, gulp and compile assets
 
 This project makes use of Bower and Laravel Elixir. Before triggering Elixir, you must first ensure that Node.js (included in homestead) is installed on your machine.
 
@@ -98,21 +127,23 @@ Install dependencies listed in package.json with:
 
     npm install
 
-Retrieve frontend dependencies with Bower, compile SASS, and move frontend files into place:
+If you don't have Bower installed globally:
+
+    npm install -g bower
+
+Retrieve frontend dependencies from bower.json with Bower:
+
+    bower install
+
+Using gulp and Laravel elixir compile SASS, merge CSS, JS and move frontend files (images, fonts, etc) into public directory:
 
     gulp
 
-Now that you have the environment configured, you need to create a database configuration for it. For create database tables use this command:
+or to also minify all the assets for better perfomance:
 
-    php artisan migrate
+    gulp --production
 
-And to initial populate database use this:
 
-    php artisan db:seed
-
-If you install on your localhost in folder laravel5startersite, you can type on web browser:
-
-	http://localhost/laravel5startersite/public
 -----
 <a name="step5"></a>
 ### Step 5: Start Page
